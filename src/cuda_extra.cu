@@ -79,13 +79,13 @@ __device__ __forceinline__ void cryptonight_aes_set_key( uint32_t * __restrict__
     MEMCPY4( key, data, 8 );
 
 #pragma unroll
-    for ( i = 8; i < 40; i++ )
+    for ( i = 8; i < 40; ++i )
     {
         *(uint32_t *) temp = key[i - 1];
         if ( i % 8 == 0 )
         {
             *(uint32_t *) temp = ROTR32( *(uint32_t *) temp, 8 );
-            for ( j = 0; j < 4; j++ )
+            for ( j = 0; j < 4; ++j )
                 temp[j] = d_sub_byte[( temp[j] >> 4 ) & 0x0f][temp[j] & 0x0f];
             *(uint32_t *) temp ^= aes_gf[i / 8 - 1];
         }
@@ -94,7 +94,7 @@ __device__ __forceinline__ void cryptonight_aes_set_key( uint32_t * __restrict__
             if ( i % 8 == 4 )
             {
 #pragma unroll
-                for ( j = 0; j < 4; j++ )
+                for ( j = 0; j < 4; ++j )
                     temp[j] = d_sub_byte[( temp[j] >> 4 ) & 0x0f][temp[j] & 0x0f];
             }
         }
@@ -198,7 +198,7 @@ __global__ void cryptonight_extra_gpu_prepare(
     memcpy(d_ctx_state + thread * 50, ctx_state, 50 * 4);
 
     if (ALGO == Algorithm::CN_HEAVY_0) {
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; ++i) {
             for (size_t t = 4; t < 12; ++t) {
                 cn_aes_pseudo_round_mut(sharedMemory, ctx_state + 4u * t, ctx_key1);
             }
@@ -234,7 +234,7 @@ __global__ void cryptonight_extra_gpu_final( int threads, uint64_t target, uint3
     uint32_t state[50];
 
     #pragma unroll
-    for ( i = 0; i < 50; i++ )
+    for ( i = 0; i < 50; ++i )
         state[i] = ctx_state[i];
 
     if(ALGO == Algorithm::CN_HEAVY_0)
@@ -244,7 +244,7 @@ __global__ void cryptonight_extra_gpu_final( int threads, uint64_t target, uint3
         // load keys
         MEMCPY8( key, d_ctx_key2 + thread * 40, 20 );
 
-        for(int i=0; i < 16; i++)
+        for(int i=0; i < 16; ++i)
         {
             for(size_t t = 4; t < 12; ++t)
             {
@@ -450,7 +450,7 @@ void cryptonight_extra_cpu_final(nvid_ctx *ctx, uint32_t startNonce, uint64_t ta
         *rescount = 10;
     }
 
-    for (uint32_t i = 0; i < *rescount; i++) {
+    for (uint32_t i = 0; i < *rescount; ++i) {
         resnonce[i] += startNonce;
     }
 }

@@ -137,7 +137,7 @@ __device__ void cn_blake_final(blake_state *S, uint8_t *digest)
 	uint8_t pa = 0x81, pb = 0x01;
 	uint8_t msglen[8];
 	uint32_t lo = S->t[0] + S->buflen, hi = S->t[1];
-	if (lo < (unsigned) S->buflen) hi++;
+	if (lo < (unsigned) S->buflen) h++i;
 	U32TO8(msglen + 0, hi);
 	U32TO8(msglen + 4, lo);
 

@@ -108,10 +108,10 @@ __device__ __forceinline__ void keccak_f800_round(uint32_t st[25], const int r)
 
     uint32_t t, bc[5];
     // Theta
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; ++i)
         bc[i] = st[i] ^ st[i + 5] ^ st[i + 10] ^ st[i + 15] ^ st[i + 20];
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; ++i) {
         t = bc[(i + 4) % 5] ^ ROTL32(bc[(i + 1) % 5], 1);
         for (uint32_t j = 0; j < 25; j += 5)
             st[j + i] ^= t;
@@ -119,7 +119,7 @@ __device__ __forceinline__ void keccak_f800_round(uint32_t st[25], const int r)
 
     // Rho Pi
     t = st[1];
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 24; ++i) {
         uint32_t j = keccakf_piln[i];
         bc[0] = st[j];
         st[j] = ROTL32(t, keccakf_rotc[i]);
@@ -128,9 +128,9 @@ __device__ __forceinline__ void keccak_f800_round(uint32_t st[25], const int r)
 
     //  Chi
     for (uint32_t j = 0; j < 25; j += 5) {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; ++i)
             bc[i] = st[j + i];
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; ++i)
             st[j + i] ^= (~bc[(i + 1) % 5]) & bc[(i + 2) % 5];
     }
 
@@ -190,7 +190,7 @@ __device__ __forceinline__ void fill_mix(uint32_t* hash_seed, uint32_t lane_id, 
     st.jsr = fnv1a(fnv_hash, lane_id);
     st.jcong = fnv1a(fnv_hash, lane_id);
     #pragma unroll
-    for (int i = 0; i < PROGPOW_REGS; i++)
+    for (int i = 0; i < PROGPOW_REGS; ++i)
         mix[i] = kiss99(st);
 }
 
@@ -228,7 +228,7 @@ __global__ void XMRIG_INCLUDE_LAUNCH_BOUNDS progpow_search(const dag_t *g_dag, c
         uint32_t state[25] = {0x0};     // Keccak's state
 
         // 1st fill with job data
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; ++i)
             state[i] = job_blob[i];
 
         // Apply nonce
@@ -236,13 +236,13 @@ __global__ void XMRIG_INCLUDE_LAUNCH_BOUNDS progpow_search(const dag_t *g_dag, c
         state[8] = gid;
 
         // 3rd apply ravencoin input constraints
-        for (int i = 10; i < 25; i++)
+        for (int i = 10; i < 25; ++i)
             state[i] = ravencoin_rndc[i-10];
 
         // Run intial keccak round
         keccak_f800(state);
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; ++i)
             state2[i] = state[i];
     }
 
@@ -267,18 +267,18 @@ __global__ void XMRIG_INCLUDE_LAUNCH_BOUNDS progpow_search(const dag_t *g_dag, c
         // Reduce mix data to a per-lane 32-bit digest
         uint32_t digest_lane = FNV_OFFSET_BASIS;
         #pragma unroll
-        for (int i = 0; i < PROGPOW_REGS; i++)
+        for (int i = 0; i < PROGPOW_REGS; ++i)
             fnv1a(digest_lane, mix[i]);
 
         // Reduce all lanes to a single 256-bit digest
         hash32_t digest_temp;
         #pragma unroll
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; ++i)
             digest_temp.uint32s[i] = FNV_OFFSET_BASIS;
 
         for (int i = 0; i < PROGPOW_LANES; i += 8)
             #pragma unroll
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; ++j)
                 fnv1a(digest_temp.uint32s[j], SHFL(digest_lane, i + j, PROGPOW_LANES));
 
         if (h == lane_id)
@@ -292,15 +292,15 @@ __global__ void XMRIG_INCLUDE_LAUNCH_BOUNDS progpow_search(const dag_t *g_dag, c
         uint32_t state[25] = {0x0};     // Keccak's state
 
         // 1st initial 8 words of state are kept as carry-over from initial keccak
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; ++i)
             state[i] = state2[i];
 
         // 2nd subsequent 8 words are carried from digest/mix
-        for (int i = 8; i < 16; i++)
+        for (int i = 8; i < 16; ++i)
             state[i] = digest.uint32s[i - 8];
 
         // 3rd apply ravencoin input constraints
-        for (int i = 16; i < 25; i++)
+        for (int i = 16; i < 25; ++i)
             state[i] = ravencoin_rndc[i - 16];
 
         // Run keccak loop

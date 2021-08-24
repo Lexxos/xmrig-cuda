@@ -586,7 +586,7 @@ __global__ void cryptonight_core_gpu_phase2_quad(
 
             t1[1] = shuffle<4>(sPtr,sub, d[x], 1);
             #pragma unroll
-            for (k = 0; k < 2; k++) {
+            for (k = 0; k < 2; ++k) {
                 t2[k] = shuffle<4>(sPtr,sub, a, k + sub2);
             }
 
@@ -731,7 +731,7 @@ void cryptonight_core_gpu_hash(nvid_ctx* ctx, uint32_t nonce)
     }
 
     const int partcountOneThree = 1 << bfactorOneThree;
-    for (int i = 0; i < partcountOneThree; i++) {
+    for (int i = 0; i < partcountOneThree; ++i) {
         CUDA_CHECK_KERNEL(ctx->device_id, cryptonight_core_gpu_phase1<ITERATIONS, MEM><<< grid, block8 >>>( ctx->device_blocks*ctx->device_threads,
             bfactorOneThree, i,
             ctx->d_long_state,
@@ -747,7 +747,7 @@ void cryptonight_core_gpu_hash(nvid_ctx* ctx, uint32_t nonce)
         compat_usleep(ctx->device_bsleep);
     }
 
-    for (int i = 0; i < partcount; i++) {
+    for (int i = 0; i < partcount; ++i) {
 #       ifdef XMRIG_ALGO_CN_R
         if (ALGO == Algorithm::CN_R) {
             int threads = ctx->device_blocks * ctx->device_threads;
@@ -804,7 +804,7 @@ void cryptonight_core_gpu_hash(nvid_ctx* ctx, uint32_t nonce)
     }
 
     const int roundsPhase3 = props.isHeavy() ? partcountOneThree * 2 : partcountOneThree;
-    for (int i = 0; i < roundsPhase3; i++) {
+    for (int i = 0; i < roundsPhase3; ++i) {
         CUDA_CHECK_KERNEL(ctx->device_id, cryptonight_core_gpu_phase3<ITERATIONS, MEM, ALGO><<<
             grid,
             block8,

@@ -211,7 +211,7 @@ private:
         {
             // Copy data into registers
             #pragma unroll
-            for (int i = 0; i < RAKING_SEGMENT; i++)
+            for (int i = 0; i < RAKING_SEGMENT; ++i)
             {
                 cached_segment[i] = smem_raking_ptr[i];
             }
@@ -243,7 +243,7 @@ private:
         {
             // Copy data back to smem
             #pragma unroll
-            for (int i = 0; i < RAKING_SEGMENT; i++)
+            for (int i = 0; i < RAKING_SEGMENT; ++i)
             {
                 smem_raking_ptr[i] = cached_segment[i];
             }

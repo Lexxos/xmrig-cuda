@@ -65,7 +65,7 @@ void hash(nvid_ctx *ctx, uint32_t nonce, uint64_t target, uint32_t *rescount, ui
         *rescount = 9;
     }
 
-    for (uint32_t i = 0; i < *rescount; i++) {
+    for (uint32_t i = 0; i < *rescount; ++i) {
         resnonce[i] = resnonce[i + 1] + nonce;
     }
 }

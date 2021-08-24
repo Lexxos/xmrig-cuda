@@ -64,10 +64,10 @@ __device__ __forceinline__ void keccak_f1600_round(uint64_t st[25], const int r)
 
 	uint64_t t, bc[5];
 	// Theta
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; ++i)
 		bc[i] = st[i] ^ st[i + 5] ^ st[i + 10] ^ st[i + 15] ^ st[i + 20];
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; ++i) {
 		t = bc[(i + 4) % 5] ^ ROTL64(bc[(i + 1) % 5], 1);
 		for (uint32_t j = 0; j < 25; j += 5)
 			st[j + i] ^= t;
@@ -75,7 +75,7 @@ __device__ __forceinline__ void keccak_f1600_round(uint64_t st[25], const int r)
 
 	// Rho Pi
 	t = st[1];
-	for (int i = 0; i < 24; i++) {
+	for (int i = 0; i < 24; ++i) {
 		uint32_t j = keccakf_piln[i];
 		bc[0] = st[j];
 		st[j] = ROTL64(t, keccakf_rotc[i]);
@@ -84,9 +84,9 @@ __device__ __forceinline__ void keccak_f1600_round(uint64_t st[25], const int r)
 
 	//  Chi
 	for (uint32_t j = 0; j < 25; j += 5) {
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 			bc[i] = st[j + i];
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 			st[j + i] ^= (~bc[(i + 1) % 5]) & bc[(i + 2) % 5];
 	}
 
@@ -96,7 +96,7 @@ __device__ __forceinline__ void keccak_f1600_round(uint64_t st[25], const int r)
 
 __device__ __forceinline__ void keccak_f1600(uint64_t st[25])
 {
-	for (int i = 8; i < 25; i++) {
+	for (int i = 8; i < 25; ++i) {
 		st[i] = 0;
 	}
 	st[8] = 0x8000000000000001;

@@ -167,7 +167,7 @@ __device__ void cn_groestl_F512(uint32_t * __restrict__ h, const uint32_t * __re
 	uint32_t y[2*GROESTL_COLS512];
 	uint32_t z[2*GROESTL_COLS512];
 
-	for (i = 0; i < 2*GROESTL_COLS512; i++) 
+	for (i = 0; i < 2*GROESTL_COLS512; ++i) 
 	{
 		z[i] = m[i];
 		Ptmp[i] = h[i]^m[i];
@@ -195,7 +195,7 @@ __device__ void cn_groestl_F512(uint32_t * __restrict__ h, const uint32_t * __re
 	cn_groestl_RND512P((uint8_t*)z, y, 0x00000008);
 	cn_groestl_RND512P((uint8_t*)y, Ptmp, 0x00000009);
 
-	for (i = 0; i < 2*GROESTL_COLS512; i++)
+	for (i = 0; i < 2*GROESTL_COLS512; ++i)
 		h[i] ^= Ptmp[i]^Qtmp[i];
 }
 
@@ -206,7 +206,7 @@ __device__ void cn_groestl_outputtransformation(groestlHashState *ctx)
 	uint32_t y[2*GROESTL_COLS512];
 	uint32_t z[2*GROESTL_COLS512];
 
-	for (j = 0; j < 2*GROESTL_COLS512; j++)
+	for (j = 0; j < 2*GROESTL_COLS512; ++j)
 		temp[j] = ctx->chaining[j];
 
 	cn_groestl_RND512P((uint8_t*)temp, y, 0x00000000);
@@ -220,7 +220,7 @@ __device__ void cn_groestl_outputtransformation(groestlHashState *ctx)
 	cn_groestl_RND512P((uint8_t*)z, y, 0x00000008);
 	cn_groestl_RND512P((uint8_t*)y, temp, 0x00000009);
 
-	for (j = 0; j < 2*GROESTL_COLS512; j++)
+	for (j = 0; j < 2*GROESTL_COLS512; ++j)
 		ctx->chaining[j] ^= temp[j];
 }
 
@@ -284,12 +284,12 @@ __device__ void cn_groestl_final(groestlHashState*  __restrict__ ctx,
 	cn_groestl_transform(ctx, ctx->buffer, GROESTL_SIZE512);
 	cn_groestl_outputtransformation(ctx);
 
-	for (i = GROESTL_SIZE512-hashbytelen; i < GROESTL_SIZE512; i++,j++)
+	for (i = GROESTL_SIZE512-hashbytelen; i < GROESTL_SIZE512; ++i,++j)
 		output[j] = s[i];
 
-	for (i = 0; i < GROESTL_COLS512; i++)
+	for (i = 0; i < GROESTL_COLS512; ++i)
 		ctx->chaining[i] = 0;
-	for (i = 0; i < GROESTL_SIZE512; i++)
+	for (i = 0; i < GROESTL_SIZE512; ++i)
 		ctx->buffer[i] = 0;
 }
 
@@ -336,7 +336,7 @@ __device__ void cn_groestl_init(groestlHashState* ctx)
 {
 	int i = 0;
 
-	for(;i<(GROESTL_SIZE512/sizeof(uint32_t));i++)
+	for(;i<(GROESTL_SIZE512/sizeof(uint32_t));++i)
 		ctx->chaining[i] = 0;
 
 	ctx->chaining[2*GROESTL_COLS512-1] = u32BIG((uint32_t)GROESTL_HASH_BIT_LEN);

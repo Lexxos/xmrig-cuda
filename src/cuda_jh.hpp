@@ -113,49 +113,49 @@ __device__ void cn_jh_E8(jhHashState *state)
 
 	for (roundnumber = 0; roundnumber < 42; roundnumber = roundnumber+7) 
 	{
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 2; ++i)
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+0])[i],((uint64_t *)d_E8_rc[roundnumber+0])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
 			JH_SWAP1(state->x[1][i]); JH_SWAP1(state->x[3][i]); JH_SWAP1(state->x[5][i]); JH_SWAP1(state->x[7][i]);
 		}
 
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 2; ++i)
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+1])[i],((uint64_t *)d_E8_rc[roundnumber+1])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
 			JH_SWAP2(state->x[1][i]); JH_SWAP2(state->x[3][i]); JH_SWAP2(state->x[5][i]); JH_SWAP2(state->x[7][i]);
 		}
 
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 2; ++i)
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+2])[i],((uint64_t *)d_E8_rc[roundnumber+2])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
 			JH_SWAP4(state->x[1][i]); JH_SWAP4(state->x[3][i]); JH_SWAP4(state->x[5][i]); JH_SWAP4(state->x[7][i]);
 		}
 
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 2; ++i)
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+3])[i],((uint64_t *)d_E8_rc[roundnumber+3])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
 			JH_SWAP8(state->x[1][i]); JH_SWAP8(state->x[3][i]); JH_SWAP8(state->x[5][i]); JH_SWAP8(state->x[7][i]);
 		}
 
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 2; ++i)
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+4])[i],((uint64_t *)d_E8_rc[roundnumber+4])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
 			JH_SWAP16(state->x[1][i]); JH_SWAP16(state->x[3][i]); JH_SWAP16(state->x[5][i]); JH_SWAP16(state->x[7][i]);
 		}
 
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 2; ++i)
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+5])[i],((uint64_t *)d_E8_rc[roundnumber+5])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
 			JH_SWAP32(state->x[1][i]); JH_SWAP32(state->x[3][i]); JH_SWAP32(state->x[5][i]); JH_SWAP32(state->x[7][i]);
 		}
 
-		for (i = 0; i < 2; i++) 
+		for (i = 0; i < 2; ++i) 
 		{
 			JH_SS(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i],((uint64_t *)d_E8_rc[roundnumber+6])[i],((uint64_t *)d_E8_rc[roundnumber+6])[i+2] );
 			JH_L(state->x[0][i],state->x[2][i],state->x[4][i],state->x[6][i],state->x[1][i],state->x[3][i],state->x[5][i],state->x[7][i]);
@@ -174,12 +174,12 @@ __device__ void cn_jh_F8(jhHashState *state)
 {
 	uint64_t i;
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < 8; ++i)
 		state->x[i >> 1][i & 1] ^= ((uint64_t *)state->buffer)[i];
 
 	cn_jh_E8(state);
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < 8; ++i)
 		state->x[(8+i) >> 1][(8+i) & 1] ^= ((uint64_t *)state->buffer)[i];
 }
 
@@ -235,7 +235,7 @@ __device__ void cn_jh_final(jhHashState * __restrict__ state, BitSequence * __re
 	{
 		/*pad the message when databitlen is multiple of 512 bits, then process the padded block*/
 		memset(state->buffer, 0, 64);
-		//for( i = 0; i < 16; i++ ) *(bufptr+i) = 0x00000000;
+		//for( i = 0; i < 16; ++i ) *(bufptr+i) = 0x00000000;
 		state->buffer[0]  = 0x80;
 		state->buffer[63] = state->databitlen & 0xff;
 		state->buffer[62] = (state->databitlen >> 8)  & 0xff;
@@ -252,12 +252,12 @@ __device__ void cn_jh_final(jhHashState * __restrict__ state, BitSequence * __re
 		/*set the rest of the bytes in the buffer to 0*/
 		if ( (state->datasize_in_buffer & 7) == 0)
 		{
-			for (i = (state->databitlen & 0x1ff) >> 3; i < 64; i++)
+			for (i = (state->databitlen & 0x1ff) >> 3; i < 64; ++i)
 				state->buffer[i] = 0;
 		}
 		else
 		{
-			for (i = ((state->databitlen & 0x1ff) >> 3)+1; i < 64; i++)
+			for (i = ((state->databitlen & 0x1ff) >> 3)+1; i < 64; ++i)
 				state->buffer[i] = 0;
 		}
 
@@ -266,7 +266,7 @@ __device__ void cn_jh_final(jhHashState * __restrict__ state, BitSequence * __re
 
 		cn_jh_F8(state);
 		memset(state->buffer, 0, 64);
-		//for( i = 0; i < 16; i++ ) *(bufptr+i) = 0x00000000;
+		//for( i = 0; i < 16; ++i ) *(bufptr+i) = 0x00000000;
 		state->buffer[63] = state->databitlen & 0xff;
 		state->buffer[62] = (state->databitlen >> 8) & 0xff;
 		state->buffer[61] = (state->databitlen >> 16) & 0xff;

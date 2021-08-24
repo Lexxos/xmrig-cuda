@@ -340,7 +340,7 @@ static void get_code(uint64_t prog_seed, std::string& random_math, std::string& 
     int mix_seq_dst_cnt = 0;
     int mix_seq_cache_cnt = 0;
 
-    for (int i = 0; i < PROGPOW_REGS; i++)
+    for (int i = 0; i < PROGPOW_REGS; ++i)
     {
         mix_seq_dst[i] = i;
         mix_seq_cache[i] = i;
@@ -355,7 +355,7 @@ static void get_code(uint64_t prog_seed, std::string& random_math, std::string& 
         std::swap(mix_seq_cache[i], mix_seq_cache[j]);
     }
 
-    for (int i = 0; (i < PROGPOW_CNT_CACHE) || (i < PROGPOW_CNT_MATH); i++)
+    for (int i = 0; (i < PROGPOW_CNT_CACHE) || (i < PROGPOW_CNT_MATH); ++i)
     {
         if (i < PROGPOW_CNT_CACHE)
         {
@@ -392,7 +392,7 @@ static void get_code(uint64_t prog_seed, std::string& random_math, std::string& 
 
     ret.str(std::string());
     ret << merge("mix[0]", "data_dag.s[0]", rnd());
-    for (int i = 1; i < PROGPOW_DAG_LOADS; i++)
+    for (int i = 1; i < PROGPOW_DAG_LOADS; ++i)
     {
         std::string dest = mix_dst();
         uint32_t    r = rnd();

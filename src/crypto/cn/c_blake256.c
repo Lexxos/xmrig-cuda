@@ -162,7 +162,7 @@ void blake224_update(state *S, const uint8_t *data, uint64_t datalen) {
 void blake256_final_h(state *S, uint8_t *digest, uint8_t pa, uint8_t pb) {
     uint8_t msglen[8];
     uint32_t lo = S->t[0] + S->buflen, hi = S->t[1];
-    if (lo < (unsigned) S->buflen) hi++;
+    if (lo < (unsigned) S->buflen) h++i;
     U32TO8(msglen + 0, hi);
     U32TO8(msglen + 4, lo);
 

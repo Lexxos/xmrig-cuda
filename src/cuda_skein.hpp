@@ -244,7 +244,7 @@ __device__ void cn_skein_final(skeinHashState * __restrict__ state, uint8_t * __
 		memset(&ctx->b[ctx->h.bCnt],0,SKEIN_512_BLOCK_BYTES - ctx->h.bCnt);
 		//p8 = &ctx->b[ctx->h.bCnt];
 		//tmp = SKEIN_512_BLOCK_BYTES - ctx->h.bCnt;
-		//for( i = 0; i < tmp; i++ ) *(p8+i) = 0;
+		//for( i = 0; i < tmp; ++i ) *(p8+i) = 0;
 	}
 
 	cn_skein512_processblock(ctx,ctx->b,1,ctx->h.bCnt);
@@ -254,11 +254,11 @@ __device__ void cn_skein_final(skeinHashState * __restrict__ state, uint8_t * __
 	//uint8_t  b[SKEIN_512_BLOCK_BYTES] == 64
 	memset(ctx->b,0,sizeof(ctx->b));
 	//p64 = (uint64_t *)ctx->b;
-	//for( i = 0; i < 8; i++ ) *(p64+i) = 0;
+	//for( i = 0; i < 8; ++i ) *(p64+i) = 0;
 
 	memcpy(X,ctx->X,sizeof(X));
 
-	for (i=0;i*SKEIN_512_BLOCK_BYTES < byteCnt;i++) 
+	for (i=0;i*SKEIN_512_BLOCK_BYTES < byteCnt;++i) 
 	{
 		((uint64_t *)ctx->b)[0]= (uint64_t)i;
 		Skein_Start_New_Type(ctx,OUT_FINAL);
